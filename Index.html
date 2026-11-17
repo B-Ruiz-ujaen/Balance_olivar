@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorador del Balance Climático Neto en el Olivar Mediterráneo (2022–2026)</title>
+  <!-- Fuente académica limpia: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js para visualizaciones interactivas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            olive: {
+              50: '#f5f8f4',
+              100: '#e6eee3',
+              200: '#cdddc7',
+              600: '#466f36',
+              700: '#37582b',
+              800: '#2d4a22',
+              900: '#233a1b',
+            },
+            gold: {
+              50: '#fdfaf0',
+              100: '#fbf2d4',
+              500: '#b58900',
+              600: '#947000',
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#f8faf8] text-slate-800 font-sans antialiased selection:bg-olive-200 selection:text-olive-900">
+
+  <!-- Cabecera Académica -->
+  <header class="bg-olive-800 text-white shadow-md border-b-4 border-gold-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-olive-900/70 border border-olive-600 text-xs font-medium text-olive-100 mb-3">
+            <span>Síntesis Bibliográfica Científica (2022–2026)</span>
+            <span>•</span>
+            <span>Agricultura de Carbono y ACV</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            Explorador del Balance Climático Neto en el Olivar Mediterráneo (2022–2026)
+          </h1>
+          <p class="mt-2 text-sm sm:text-base text-olive-100 max-w-4xl leading-relaxed">
+            Comparativa cuantitativa entre <strong>emisiones operacionales del manejo</strong> y <strong>secuestro de carbono en suelo y biomasa arbórea</strong> a partir de literatura revisada por pares.
+          </p>
+        </div>
+        <!-- Leyenda de convención de signos -->
+        <div class="bg-olive-900/80 border border-olive-600 rounded-xl p-4 text-xs sm:text-sm shrink-0 lg:max-w-xs">
+          <p class="font-semibold text-gold-100 mb-1.5 uppercase tracking-wider text-[11px]">Convención de Signos Climáticos</p>
+          <div class="flex items-center gap-2 text-emerald-300 mb-1">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <span><strong>Valor negativo (−):</strong> Sumidero neto / Captura de CO₂</span>
+          </div>
+          <div class="flex items-center gap-2 text-amber-300">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <span><strong>Valor positivo (+):</strong> Emisión neta a la atmósfera</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Barra de Filtros y Búsqueda -->
+    <section aria-label="Filtros de búsqueda" class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+        <!-- Buscador libre -->
+        <div class="md:col-span-5">
+          <label for="searchInput" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+            Buscar por autor, práctica o hallazgo
+          </label>
+          <div class="relative">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Ej. Ruiz-Carrasco, cubiertas, alperujo, Alentejo..."
+              class="w-full rounded-xl border border-slate-300 bg-slate-50/50 pl-10 pr-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-olive-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-olive-600/20 transition"
+            />
+            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Filtro por Categoría -->
+        <div class="md:col-span-3">
+          <label for="categoryFilter" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+            Categoría de Manejo
+          </label>
+          <select
+            id="categoryFilter"
+            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm text-slate-800 focus:border-olive-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-olive-600/20 transition"
+          >
+            <option value="ALL">Todas las categorías</option>
+          </select>
+        </div>
+
+        <!-- Filtro por Ubicación -->
+        <div class="md:col-span-2">
+          <label for="locationFilter" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+            Ubicación
+          </label>
+          <select
+            id="locationFilter"
+            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm text-slate-800 focus:border-olive-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-olive-600/20 transition"
+          >
+            <option value="ALL">Todas las regiones</option>
+          </select>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="md:col-span-2 flex gap-2">
+          <button
+            id="resetBtn"
+            type="button"
+            class="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 active:bg-slate-200 transition cursor-pointer"
+            title="Restablecer todos los filtros"
+          >
+            Limpiar
+          </button>
+          <button
+            id="exportCsvBtn"
+            type="button"
+            class="flex-1 rounded-xl bg-olive-800 px-3 py-2.5 text-xs font-semibold text-white hover:bg-olive-700 active:bg-olive-900 shadow-sm transition cursor-pointer"
+            title="Descargar registros filtrados en formato CSV"
+          >
+            CSV ↓
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Tarjetas KPI Dinámicas -->
+    <section aria-label="Indicadores clave" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- KPI 1 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Sistemas / Registros</span>
+          <span class="p-2 rounded-lg bg-olive-50 text-olive-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <p id="kpiCount" class="text-3xl font-bold text-slate-900">10</p>
+          <p id="kpiStudiesSubtitle" class="text-xs text-slate-500 mt-1">De 6 publicaciones revisadas por pares</p>
+        </div>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Emisiones Op. Medias</span>
+          <span class="p-2 rounded-lg bg-amber-50 text-amber-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <p id="kpiEmissions" class="text-3xl font-bold text-slate-900">—</p>
+          <p id="kpiEmissionsSub" class="text-xs text-slate-500 mt-1">kg CO₂-eq ha⁻¹ año⁻¹ (ACV)</p>
+        </div>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Secuestro Suelo Medio</span>
+          <span class="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+            </svg>
+          </span>
+        </div>
+        <div class="mt-3">
+          <p id="kpiSoil" class="text-3xl font-bold text-slate-900">—</p>
+          <p id="kpiSoilSub" class="text-xs text-slate-500 mt-1">Mg CO₂ ha⁻¹ año⁻¹ (0–30 cm)</p>
+        </div>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Balance Neto Medio</span>
+          <span id="kpiNetBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+            Sumidero Neto
+          </span>
+        </div>
+        <div class="mt-3">
+          <p id="kpiNet" class="text-3xl font-bold text-slate-900">—</p>
+          <p id="kpiNetSub" class="text-xs text-slate-500 mt-1">Mg CO₂-eq ha⁻¹ año⁻¹ (sistemas con balance)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dos Gráficos Interactivos (Chart.js) -->
+    <section aria-label="Visualizaciones comparativas" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Gráfico 1: Desglose de Flujos y Balance Neto -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 flex flex-col">
+        <div class="mb-4">
+          <h2 class="text-base font-bold text-slate-900">1. Desglose de Flujos Climáticos y Balance Neto</h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Emisiones operacionales (+) vs. Secuestro en suelo y biomasa (−) en <strong>Mg CO₂-eq ha⁻¹ año⁻¹</strong> (sistemas con balance reportado).
+          </p>
+        </div>
+        <div class="relative h-80 w-full">
+          <canvas id="fluxChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Gráfico 2: Tasas de Secuestro en Suelo por Práctica/Estudio -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 flex flex-col">
+        <div class="mb-4">
+          <h2 class="text-base font-bold text-slate-900">2. Tasas de Secuestro / Emisión en Suelo (COS)</h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Flujo anual de carbono edáfico expresado en <strong>Mg CO₂ ha⁻¹ año⁻¹</strong> (valores negativos indican captura en suelo).
+          </p>
+        </div>
+        <div class="relative h-80 w-full">
+          <canvas id="soilChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabla Interactiva de Evidencias -->
+    <section aria-label="Tabla de estudios y prácticas" class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+      <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Matriz de Evidencia Científica (2022–2026)</h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Haz clic en los encabezados para ordenar o pulsa <strong>«Ver detalle»</strong> en cualquier fila para consultar la muestra y el hallazgo principal.
+          </p>
+        </div>
+        <span id="tableResultCount" class="text-xs font-medium text-olive-800 bg-olive-50 px-3 py-1.5 rounded-full border border-olive-200 self-start sm:self-auto">
+          Mostrando 10 de 10 registros
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-[11px] uppercase tracking-wider select-none">
+              <th data-sort="estudio" class="py-3.5 px-4 font-semibold cursor-pointer hover:text-olive-800 transition">
+                Estudio y Sistema <span class="sort-icon text-slate-400">↕</span>
+              </th>
+              <th data-sort="ubicacion" class="py-3.5 px-3 font-semibold cursor-pointer hover:text-olive-800 transition">
+                Ubicación <span class="sort-icon text-slate-400">↕</span>
+              </th>
+              <th data-sort="emisiones_operacionales" class="py-3.5 px-3 font-semibold text-right cursor-pointer hover:text-olive-800 transition" title="kg CO2-eq ha-1 año-1">
+                Emis. Op.<br><span class="text-[10px] font-normal lowercase">(kg CO₂-eq/ha/año)</span> <span class="sort-icon text-slate-400">↕</span>
+              </th>
+              <th data-sort="secuestro_suelo" class="py-3.5 px-3 font-semibold text-right cursor-pointer hover:text-olive-800 transition" title="Mg CO2 ha-1 año-1">
+                Suelo<br><span class="text-[10px] font-normal lowercase">(Mg CO₂/ha/año)</span> <span class="sort-icon text-slate-400">↕</span>
+              </th>
+              <th data-sort="secuestro_biomasa" class="py-3.5 px-3 font-semibold text-right cursor-pointer hover:text-olive-800 transition" title="Mg CO2 ha-1 año-1">
+                Biomasa<br><span class="text-[10px] font-normal lowercase">(Mg CO₂/ha/año)</span> <span class="sort-icon text-slate-400">↕</span>
+              </th>
+              <th data-sort="balance_neto" class="py-3.5 px-3 font-semibold text-right cursor-pointer hover:text-olive-800 transition" title="Mg CO2-eq ha-1 año-1">
+                Balance Neto<br><span class="text-[10px] font-normal lowercase">(Mg CO₂-eq/ha/año)</span> <span class="sort-icon text-slate-400">↕</span>
+              </th>
+              <th class="py-3.5 px-3 font-semibold">
+                Tasa COS<br><span class="text-[10px] font-normal lowercase">(Mg C/ha/año)</span>
+              </th>
+              <th class="py-3.5 px-3 font-semibold text-center">Fuente / DOI</th>
+              <th class="py-3.5 px-4 font-semibold text-center">Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="evidenceTableBody" class="divide-y divide-slate-200/80">
+            <!-- Renderizado dinámico mediante JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sección Final: Cómo citar y Notas Metodológicas -->
+    <footer class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Cómo citar y Notas Metodológicas</h2>
+          <p class="text-xs text-slate-500">Trazabilidad científica y cautelas de interpretación de los datos presentados</p>
+        </div>
+        <button
+          id="copyCitationBtn"
+          type="button"
+          class="inline-flex items-center gap-1.5 rounded-xl bg-olive-50 hover:bg-olive-100 text-olive-800 border border-olive-200 px-3.5 py-2 text-xs font-semibold transition cursor-pointer self-start md:self-auto"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span id="copyCitationText">Copiar cita sugerida</span>
+        </button>
+      </div>
+
+      <!-- Cita sugerida -->
+      <div id="citationBox" class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-xs sm:text-sm text-slate-700 font-mono leading-relaxed">
+        Explorador del Balance Climático Neto en el Olivar Mediterráneo (2022–2026). Síntesis cuantitativa basada en Ruiz-Carrasco et al. (2026, J. Clean. Prod., DOI: 10.1016/j.jclepro.2026.147562), Pareja-Sánchez et al. (2026, Environ. Res. Commun., DOI: 10.1088/2515-7620/ae675e), Torrús-Castillo et al. (2023, Agric. Ecosyst. Environ., DOI: 10.1016/j.agee.2023.108707), Gkotsis et al. (2026, Agriculture, DOI: 10.3390/agriculture16141562), Repullo-Ruibérriz de Torres et al. (2024, Agriculture, DOI: 10.3390/agriculture14122118) y Carbon Farming MED (2026, Front. Soil Sci., DOI: 10.3389/fsoil.2026.1799970).
+      </div>
+
+      <!-- Advertencias metodológicas obligatorias -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600 leading-relaxed">
+        <div class="bg-gold-50/70 border border-gold-100 rounded-xl p-4">
+          <h3 class="font-bold text-slate-800 mb-1">1. Existencias (Stocks) vs. Tasas Anuales</h3>
+          <p>
+            No deben confundirse las existencias acumuladas de carbono orgánico del suelo (p. ej., 48,78 t C ha⁻¹ en Carbon Farming MED, 2026) con las tasas anuales de secuestro (ΔCOS en Mg C ha⁻¹ año⁻¹), las cuales tienden a estabilizarse conforme el suelo se aproxima a su nivel de saturación.
+          </p>
+        </div>
+        <div class="bg-olive-50/70 border border-olive-100 rounded-xl p-4">
+          <h3 class="font-bold text-slate-800 mb-1">2. Fronteras del Sistema y ACV</h3>
+          <p>
+            Mientras estudios como Ruiz-Carrasco et al. (2026) y Pareja-Sánchez et al. (2026) integran el Análisis de Ciclo de Vida (ACV) operacional (diésel, fertilizantes, riego) junto con los sumideros, Torrús-Castillo et al. (2023) reportan el balance biológico (suelo + árbol) sin incluir emisiones operacionales.
+          </p>
+        </div>
+        <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-4">
+          <h3 class="font-bold text-slate-800 mb-1">3. Naturaleza Observacional vs. Causal</h3>
+          <p>
+            Las comparaciones entre fincas comerciales reflejan gradientes reales de manejo (aportes de MSOC, riego, densidad de plantación) pero no constituyen ensayos factoriales aleatorizados; las diferencias intragrupo muestran alta dispersión edafoclimática.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Modal de Detalle del Estudio -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-2xl w-full overflow-hidden animate-fadeIn">
+      <div class="bg-olive-800 text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <span id="modalCategory" class="text-[11px] uppercase tracking-wider font-semibold text-gold-100 block">Categoría</span>
+          <h3 id="modalTitle" class="text-lg font-bold leading-snug mt-0.5">Título del estudio</h3>
+        </div>
+        <button id="closeModalBtn" type="button" class="text-olive-100 hover:text-white p-1.5 rounded-lg hover:bg-olive-700 transition cursor-pointer" aria-label="Cerrar ventana">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-6 space-y-4 text-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200/80 text-xs">
+          <div>
+            <span class="text-slate-500 block">Revista científica:</span>
+            <strong id="modalJournal" class="text-slate-800 font-semibold">—</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Ubicación geográfica:</span>
+            <strong id="modalLocation" class="text-slate-800 font-semibold">—</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Tamaño de muestra / Alcance:</span>
+            <strong id="modalSample" class="text-slate-800 font-semibold">—</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block">Tasa anual COS reportada:</span>
+            <strong id="modalCosRate" class="text-slate-800 font-semibold">—</strong>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Sistema y Prácticas Evaluadas</h4>
+          <p id="modalPractice" class="text-slate-800 bg-olive-50/60 border border-olive-100 rounded-xl p-3.5 leading-relaxed"></p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Síntesis del Hallazgo Principal</h4>
+          <p id="modalFinding" class="text-slate-700 leading-relaxed"></p>
+        </div>
+
+        <!-- Métricas numéricas del registro -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+          <div class="border border-slate-200 rounded-xl p-3 text-center">
+            <span class="text-[11px] text-slate-500 block">Emisiones Op.</span>
+            <strong id="modalEmis" class="text-sm font-bold text-slate-900">—</strong>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-3 text-center">
+            <span class="text-[11px] text-slate-500 block">Secuestro Suelo</span>
+            <strong id="modalSoil" class="text-sm font-bold text-slate-900">—</strong>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-3 text-center">
+            <span class="text-[11px] text-slate-500 block">Secuestro Biomasa</span>
+            <strong id="modalBiomass" class="text-sm font-bold text-slate-900">—</strong>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-3 text-center">
+            <span class="text-[11px] text-slate-500 block">Balance Neto</span>
+            <strong id="modalNet" class="text-sm font-bold text-slate-900">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex items-center justify-between">
+        <a id="modalDoiLink" href="#" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-olive-700 hover:text-olive-900 underline">
+          Abrir publicación original (DOI) ↗
+        </a>
+        <button id="closeModalFooterBtn" type="button" class="rounded-xl bg-slate-800 text-white px-4 py-2 text-xs font-semibold hover:bg-slate-700 transition cursor-pointer">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de notificación (sin usar alert()) -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2 rounded-xl bg-slate-900 text-white px-4 py-3 text-xs font-medium shadow-lg">
+    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+    <span id="toastMessage">Acción completada</span>
+  </div>
+
+  <script>
+    // =========================================================================
+    // BLOQUE ÚNICO DE DATOS EDITABLES POR EL INVESTIGADOR
+    // Convención de signos:
+    //   - Valores negativos (-) = Sumidero / Secuestro neto de CO2
+    //   - Valores positivos (+) = Emisión neta a la atmósfera
+    //   - null = No reportado o no aplicable según fronteras del estudio
+    // =========================================================================
+    const DATA = [
+      {
+        id: 1,
+        estudio: "Ruiz-Carrasco et al. (2026) — Grupo Alto MSOC (>2,1 Mg C ha⁻¹ año⁻¹)",
+        revista: "Journal of Cleaner Production",
+        doi: "10.1016/j.jclepro.2026.147562",
+        ubicacion: "Andalucía, España",
+        sistema_practica: "Cubiertas espontáneas, poda triturada, estiércol, compost de alperujo y pastoreo",
+        categoria_manejo: "Alto aporte orgánico / MSOC",
+        emisiones_operacionales: 800,
+        secuestro_suelo: -2.50,
+        secuestro_biomasa: -1.39,
+        balance_neto: -3.15,
+        tasa_cos_anual_rango: "> 2,1 (entrada MSOC)",
+        muestra: "5 fincas comerciales (de 16 totales)",
+        resumen_hallazgo: "Alcanza un sumidero neto robusto de -3,15 Mg CO2 ha-1 año-1 al combinar bajo N sintético (4,3 kg N/ha) con altos aportes orgánicos."
+      },
+      {
+        id: 2,
+        estudio: "Ruiz-Carrasco et al. (2026) — Grupo Medio MSOC",
+        revista: "Journal of Cleaner Production",
+        doi: "10.1016/j.jclepro.2026.147562",
+        ubicacion: "Andalucía, España",
+        sistema_practica: "Manejo intermedio con mayor fertilización nitrogenada (90,1 kg N/ha) y riego",
+        categoria_manejo: "Medio aporte / Intensivo",
+        emisiones_operacionales: 2008,
+        secuestro_suelo: -0.20,
+        secuestro_biomasa: -2.20,
+        balance_neto: -0.43,
+        tasa_cos_anual_rango: "-1,06 a +0,33 Mg C/ha/año",
+        muestra: "5 fincas comerciales (de 16 totales)",
+        resumen_hallazgo: "Las altas emisiones por fertilización sintética y riego (2008 kg CO2-eq/ha/año) casi anulan la captura en biomasa arbórea."
+      },
+      {
+        id: 3,
+        estudio: "Ruiz-Carrasco et al. (2026) — Grupo Bajo MSOC",
+        revista: "Journal of Cleaner Production",
+        doi: "10.1016/j.jclepro.2026.147562",
+        ubicacion: "Andalucía, España",
+        sistema_practica: "Bajo aporte de residuos orgánicos y cubiertas escasas (35,8 kg N/ha)",
+        categoria_manejo: "Bajo aporte / Convencional",
+        emisiones_operacionales: 1323,
+        secuestro_suelo: 0.57,
+        secuestro_biomasa: -2.00,
+        balance_neto: -0.14,
+        tasa_cos_anual_rango: "Pérdida neta (-0,16 Mg C/ha/año)",
+        muestra: "6 fincas comerciales (de 16 totales)",
+        resumen_hallazgo: "El suelo actúa como emisor neto (+0,57 Mg CO2/ha/año) y el sistema queda prácticamente en neutralidad (-0,14 Mg CO2/ha/año)."
+      },
+      {
+        id: 4,
+        estudio: "Pareja-Sánchez et al. (2026) — Alto aporte (>3 Mg C/ha/año)",
+        revista: "Environmental Research Communications",
+        doi: "10.1088/2515-7620/ae675e",
+        ubicacion: "Alentejo, Portugal",
+        sistema_practica: "Olivares intensificados (integrado, ecológico, biodinámico) con altos aportes (>3 Mg C/ha/año)",
+        categoria_manejo: "Alto aporte orgánico / MSOC",
+        emisiones_operacionales: 3300,
+        secuestro_suelo: null,
+        secuestro_biomasa: null,
+        balance_neto: 0.14,
+        tasa_cos_anual_rango: "~ +1,0 Mg C/ha/año (balance C)",
+        muestra: "3 olivares (de 6 totales)",
+        resumen_hallazgo: "Pese a un balance de C positivo (~+1,0 Mg C/ha/año), las altas emisiones operacionales (3200–3400 kg CO2-eq/ha/año) dejan una emisión neta residual de ~140 kg CO2-eq/ha/año."
+      },
+      {
+        id: 5,
+        estudio: "Pareja-Sánchez et al. (2026) — Bajo aporte (0–3 Mg C/ha/año)",
+        revista: "Environmental Research Communications",
+        doi: "10.1088/2515-7620/ae675e",
+        ubicacion: "Alentejo, Portugal",
+        sistema_practica: "Olivares intensificados con bajos aportes orgánicos (0–3 Mg C/ha/año)",
+        categoria_manejo: "Bajo aporte / Convencional",
+        emisiones_operacionales: 3300,
+        secuestro_suelo: null,
+        secuestro_biomasa: null,
+        balance_neto: 1.65,
+        tasa_cos_anual_rango: "0 a 3 Mg C/ha/año (entrada)",
+        muestra: "3 olivares (de 6 totales)",
+        resumen_hallazgo: "Sin aportes orgánicos suficientes para compensar la carga operacional intensiva, la emisión neta asciende a ~1650 kg CO2-eq/ha/año."
+      },
+      {
+        id: 6,
+        estudio: "Torrús-Castillo et al. (2023) — Soluciones Basadas en la Naturaleza (NbCS)",
+        revista: "Agriculture, Ecosystems & Environment",
+        doi: "10.1016/j.agee.2023.108707",
+        ubicacion: "Andalucía, España",
+        sistema_practica: "Cubiertas vegetales y poda triturada frente a manejo convencional (balance suelo + árbol sin ACV)",
+        categoria_manejo: "Alto aporte orgánico / MSOC",
+        emisiones_operacionales: null,
+        secuestro_suelo: -5.32,
+        secuestro_biomasa: -1.98,
+        balance_neto: -7.30,
+        tasa_cos_anual_rango: "Secuestro combinado elevado",
+        muestra: "24 fincas (12 pares)",
+        resumen_hallazgo: "La captura biológica combinada (suelo + árbol) alcanza -7,30 Mg CO2-eq/ha/año bajo NbCS frente a -1,46 sin ellas (sin incluir ACV operacional)."
+      },
+      {
+        id: 7,
+        estudio: "Gkotsis et al. (2026) — Síntesis de Cubiertas Vegetales",
+        revista: "Agriculture",
+        doi: "10.3390/agriculture16141562",
+        ubicacion: "Cuenca Mediterránea",
+        sistema_practica: "Cubiertas vegetales espontáneas o sembradas (ventana 3–8 años)",
+        categoria_manejo: "Prácticas específicas",
+        emisiones_operacionales: null,
+        secuestro_suelo: -2.47,
+        secuestro_biomasa: null,
+        balance_neto: null,
+        tasa_cos_anual_rango: "+0,25 a +1,10 Mg C/ha/año",
+        muestra: "Revisión narrativa mediterránea",
+        resumen_hallazgo: "Incrementa glomalina y macroagregados, secuestrando entre +0,25 y +1,10 Mg C ha-1 año-1 sin penalizar necesariamente el rendimiento."
+      },
+      {
+        id: 8,
+        estudio: "Gkotsis et al. (2026) — Síntesis de Fertilización Orgánica",
+        revista: "Agriculture",
+        doi: "10.3390/agriculture16141562",
+        ubicacion: "Cuenca Mediterránea",
+        sistema_practica: "Compost de alperujo y estiércol (ventana 3–10 años)",
+        categoria_manejo: "Prácticas específicas",
+        emisiones_operacionales: null,
+        secuestro_suelo: -3.84,
+        secuestro_biomasa: null,
+        balance_neto: null,
+        tasa_cos_anual_rango: "+0,60 a +1,50 Mg C/ha/año",
+        muestra: "Revisión narrativa mediterránea",
+        resumen_hallazgo: "Aporta carbono muy recalcitrante (DPM/RPM = 0,04 en alperujo compostado), aunque presenta riesgo de picos de N2O según pH y humedad."
+      },
+      {
+        id: 9,
+        estudio: "Repullo-Ruibérriz de Torres et al. (2024) — Cubiertas + Poda Triturada",
+        revista: "Agriculture",
+        doi: "10.3390/agriculture14122118",
+        ubicacion: "Andalucía, España (4 zonas)",
+        sistema_practica: "Cubiertas vegetales y restos de poda triturados frente a laboreo",
+        categoria_manejo: "Prácticas específicas",
+        emisiones_operacionales: null,
+        secuestro_suelo: -5.56,
+        secuestro_biomasa: null,
+        balance_neto: null,
+        tasa_cos_anual_rango: "+0,02 a +3,02 Mg C/ha/año",
+        muestra: "4 campos edafoclimáticos",
+        resumen_hallazgo: "El contenido de arcilla y el clima modulan el secuestro edáfico (0,07 a 11,08 t CO2/ha/año), con máximas ganancias en 0–5 cm en olivares maduros."
+      },
+      {
+        id: 10,
+        estudio: "Carbon Farming MED (2026) — Agroecología y Fraccionamiento CAST",
+        revista: "Frontiers in Soil Science",
+        doi: "10.3389/fsoil.2026.1799970",
+        ubicacion: "Italia",
+        sistema_practica: "Aporte orgánico calibrado de 3,4 t C/ha/año y modelización CAST (2011–2045)",
+        categoria_manejo: "Alto aporte orgánico / MSOC",
+        emisiones_operacionales: null,
+        secuestro_suelo: -4.28,
+        secuestro_biomasa: null,
+        balance_neto: null,
+        tasa_cos_anual_rango: "+1,17 Mg C/ha/año (34% aporte)",
+        muestra: "1 olivar piloto en Italia",
+        resumen_hallazgo: "Stock medio de 48,78 t C/ha (55,1% en macroagregados AC3+cPOM); acumulación calibrada de 1,17 t C/ha/año y proyectada a 2045 de 1,09 t C/ha/año."
+      }
+    ];
+
+    // =========================================================================
+    // ESTADO DE LA APLICACIÓN Y REFERENCIAS AL DOM
+    // =========================================================================
+    let state = {
+      search: "",
+      category: "ALL",
+      location: "ALL",
+      sortField: "id",
+      sortAsc: true
+    };
+
+    let fluxChartInstance = null;
+    let soilChartInstance = null;
+
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const locationFilter = document.getElementById("locationFilter");
+    const resetBtn = document.getElementById("resetBtn");
+    const exportCsvBtn = document.getElementById("exportCsvBtn");
+    const tableBody = document.getElementById("evidenceTableBody");
+    const tableResultCount = document.getElementById("tableResultCount");
+
+    // =========================================================================
+    // UTILIDADES DE FORMATO Y NOTIFICACIÓN
+    // =========================================================================
+    function formatNum(val, decimals = 2, showPlus = false) {
+      if (val === null || val === undefined || Number.isNaN(val)) {
+        return '<span class="text-slate-400 italic text-xs">No reportado</span>';
+      }
+      const formatted = val.toLocaleString("es-ES", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+      if (showPlus && val > 0) return `+${formatted}`;
+      return formatted;
+    }
+
+    function formatPlainNum(val, decimals = 2, showPlus = false) {
+      if (val === null || val === undefined || Number.isNaN(val)) return "No reportado";
+      const formatted = val.toLocaleString("es-ES", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+      if (showPlus && val > 0) return `+${formatted}`;
+      return formatted;
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toastNotification");
+      const toastMsg = document.getElementById("toastMessage");
+      toastMsg.textContent = msg;
+      toast.classList.remove("hidden");
+      toast.classList.add("flex");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add("hidden");
+        toast.classList.remove("flex");
+      }, 2800);
+    }
+
+    function shortLabel(estudioStr) {
+      // Acorta etiquetas largas para los ejes de las gráficas manteniendo claridad
+      return estudioStr
+        .replace("Ruiz-Carrasco et al. (2026) — ", "Ruiz-Carrasco 26: ")
+        .replace("Pareja-Sánchez et al. (2026) — ", "Pareja-Sánchez 26: ")
+        .replace("Torrús-Castillo et al. (2023) — ", "Torrús-Castillo 23: ")
+        .replace("Gkotsis et al. (2026) — ", "Gkotsis 26: ")
+        .replace("Repullo-Ruibérriz de Torres et al. (2024) — ", "Repullo-R. 24: ")
+        .replace("Carbon Farming MED (2026) — ", "Carbon Farming MED 26: ");
+    }
+
+    // =========================================================================
+    // INICIALIZACIÓN DE SELECTORES DE FILTRO
+    // =========================================================================
+    function populateFilters() {
+      const categories = [...new Set(DATA.map(d => d.categoria_manejo))];
+      categories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        categoryFilter.appendChild(opt);
+      });
+
+      const locations = [...new Set(DATA.map(d => d.ubicacion))];
+      locations.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc;
+        opt.textContent = loc;
+        locationFilter.appendChild(opt);
+      });
+    }
+
+    // =========================================================================
+    // FILTRADO Y ORDENACIÓN
+    // =========================================================================
+    function getFilteredData() {
+      const q = state.search.trim().toLowerCase();
+
+      const filtered = DATA.filter(item => {
+        const matchCat = state.category === "ALL" || item.categoria_manejo === state.category;
+        const matchLoc = state.location === "ALL" || item.ubicacion === state.location;
+        const matchSearch =
+          !q ||
+          item.estudio.toLowerCase().includes(q) ||
+          item.ubicacion.toLowerCase().includes(q) ||
+          item.sistema_practica.toLowerCase().includes(q) ||
+          item.resumen_hallazgo.toLowerCase().includes(q) ||
+          item.revista.toLowerCase().includes(q);
+        return matchCat && matchLoc && matchSearch;
+      });
+
+      return filtered.sort((a, b) => {
+        let valA = a[state.sortField];
+        let valB = b[state.sortField];
+
+        // Colocar valores null siempre al final al ordenar numéricamente
+        if (valA === null && valB === null) return 0;
+        if (valA === null) return 1;
+        if (valB === null) return -1;
+
+        if (typeof valA === "string") {
+          valA = valA.toLowerCase();
+          valB = valB.toLowerCase();
+          if (valA < valB) return state.sortAsc ? -1 : 1;
+          if (valA > valB) return state.sortAsc ? 1 : -1;
+          return 0;
+        }
+        return state.sortAsc ? valA - valB : valB - valA;
+      });
+    }
+
+    // =========================================================================
+    // ACTUALIZACIÓN DE TARJETAS KPI
+    // =========================================================================
+    function updateKPIs(rows) {
+      const kpiCount = document.getElementById("kpiCount");
+      const kpiStudiesSubtitle = document.getElementById("kpiStudiesSubtitle");
+      const kpiEmissions = document.getElementById("kpiEmissions");
+      const kpiEmissionsSub = document.getElementById("kpiEmissionsSub");
+      const kpiSoil = document.getElementById("kpiSoil");
+      const kpiSoilSub = document.getElementById("kpiSoilSub");
+      const kpiNet = document.getElementById("kpiNet");
+      const kpiNetSub = document.getElementById("kpiNetSub");
+      const kpiNetBadge = document.getElementById("kpiNetBadge");
+
+      kpiCount.textContent = rows.length;
+      const uniqueDois = new Set(rows.map(r => r.doi)).size;
+      kpiStudiesSubtitle.textContent = `De ${uniqueDois} ${uniqueDois === 1 ? "publicación" : "publicaciones"} con DOI verificado`;
+
+      // Emisiones operacionales medias
+      const emisVals = rows.map(r => r.emisiones_operacionales).filter(v => v !== null);
+      if (emisVals.length > 0) {
+        const avgEmis = emisVals.reduce((acc, v) => acc + v, 0) / emisVals.length;
+        kpiEmissions.textContent = avgEmis.toLocaleString("es-ES", { maximumFractionDigits: 0 });
+        kpiEmissionsSub.textContent = `kg CO₂-eq ha⁻¹ año⁻¹ (n = ${emisVals.length} sistemas)`;
+      } else {
+        kpiEmissions.textContent = "N/D";
+        kpiEmissionsSub.textContent = "Sin datos de ACV en selección";
+      }
+
+      // Secuestro suelo medio
+      const soilVals = rows.map(r => r.secuestro_suelo).filter(v => v !== null);
+      if (soilVals.length > 0) {
+        const avgSoil = soilVals.reduce((acc, v) => acc + v, 0) / soilVals.length;
+        kpiSoil.textContent = formatPlainNum(avgSoil, 2, true);
+        kpiSoilSub.textContent = `Mg CO₂ ha⁻¹ año⁻¹ (n = ${soilVals.length} registros)`;
+      } else {
+        kpiSoil.textContent = "N/D";
+        kpiSoilSub.textContent = "Sin datos de suelo en selección";
+      }
+
+      // Balance neto medio
+      const netVals = rows.map(r => r.balance_neto).filter(v => v !== null);
+      if (netVals.length > 0) {
+        const avgNet = netVals.reduce((acc, v) => acc + v, 0) / netVals.length;
+        kpiNet.textContent = formatPlainNum(avgNet, 2, true);
+        kpiNetSub.textContent = `Mg CO₂-eq ha⁻¹ año⁻¹ (n = ${netVals.length} sistemas)`;
+
+        if (avgNet < 0) {
+          kpiNetBadge.textContent = "Sumidero Neto";
+          kpiNetBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800";
+          kpiNet.className = "text-3xl font-bold text-emerald-700";
+        } else if (avgNet > 0) {
+          kpiNetBadge.textContent = "Emisor Neto";
+          kpiNetBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800";
+          kpiNet.className = "text-3xl font-bold text-amber-700";
+        } else {
+          kpiNetBadge.textContent = "Neutralidad";
+          kpiNetBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700";
+          kpiNet.className = "text-3xl font-bold text-slate-900";
+        }
+      } else {
+        kpiNet.textContent = "N/D";
+        kpiNet.className = "text-3xl font-bold text-slate-900";
+        kpiNetSub.textContent = "Sin balance neto completo en selección";
+        kpiNetBadge.textContent = "Parcial";
+        kpiNetBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600";
+      }
+    }
+
+    // =========================================================================
+    // RENDERIZADO DE TABLA
+    // =========================================================================
+    function renderTable(rows) {
+      tableResultCount.textContent = `Mostrando ${rows.length} de ${DATA.length} registros`;
+
+      if (rows.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-10 px-4 text-center text-slate-500">
+              No se encontraron registros que coincidan con los filtros seleccionados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = rows
+        .map(row => {
+          // Estilo visual para Balance Neto
+          let netHtml = formatNum(row.balance_neto, 2, true);
+          if (row.balance_neto !== null) {
+            const isSink = row.balance_neto < 0;
+            const badgeClass = isSink
+              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+              : "bg-amber-50 text-amber-800 border-amber-200";
+            netHtml = `<span class="inline-block px-2 py-0.5 rounded-lg border font-bold text-xs ${badgeClass}">${formatPlainNum(row.balance_neto, 2, true)}</span>`;
+          }
+
+          // Estilo visual para Secuestro en Suelo
+          let soilHtml = formatNum(row.secuestro_suelo, 2, true);
+          if (row.secuestro_suelo !== null) {
+            const colorClass = row.secuestro_suelo < 0 ? "text-emerald-700 font-semibold" : "text-amber-700 font-semibold";
+            soilHtml = `<span class="${colorClass}">${formatPlainNum(row.secuestro_suelo, 2, true)}</span>`;
+          }
+
+          // Estilo visual para Biomasa
+          let bioHtml = formatNum(row.secuestro_biomasa, 2, true);
+          if (row.secuestro_biomasa !== null) {
+            bioHtml = `<span class="text-olive-700 font-medium">${formatPlainNum(row.secuestro_biomasa, 2, true)}</span>`;
+          }
+
+          return `
+            <tr class="hover:bg-olive-50/40 transition-colors">
+              <td class="py-3.5 px-4 align-top max-w-xs">
+                <div class="font-semibold text-slate-900 leading-snug">${row.estudio}</div>
+                <div class="text-xs text-slate-500 mt-0.5 line-clamp-2">${row.sistema_practica}</div>
+                <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                  ${row.categoria_manejo}
+                </span>
+              </td>
+              <td class="py-3.5 px-3 align-top text-xs text-slate-700 whitespace-nowrap">
+                ${row.ubicacion}
+              </td>
+              <td class="py-3.5 px-3 align-top text-right font-mono text-xs sm:text-sm text-slate-800 whitespace-nowrap">
+                ${row.emisiones_operacionales !== null ? row.emisiones_operacionales.toLocaleString("es-ES") : '<span class="text-slate-400 italic text-xs">No reportado</span>'}
+              </td>
+              <td class="py-3.5 px-3 align-top text-right font-mono text-xs sm:text-sm whitespace-nowrap">
+                ${soilHtml}
+              </td>
+              <td class="py-3.5 px-3 align-top text-right font-mono text-xs sm:text-sm whitespace-nowrap">
+                ${bioHtml}
+              </td>
+              <td class="py-3.5 px-3 align-top text-right font-mono whitespace-nowrap">
+                ${netHtml}
+              </td>
+              <td class="py-3.5 px-3 align-top text-xs text-slate-700">
+                ${row.tasa_cos_anual_rango}
+              </td>
+              <td class="py-3.5 px-3 align-top text-center whitespace-nowrap">
+                <a
+                  href="https://doi.org/${row.doi}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 text-xs font-medium text-olive-700 hover:text-olive-900 underline"
+                  title="DOI: ${row.doi}"
+                >
+                  DOI ↗
+                </a>
+              </td>
+              <td class="py-3.5 px-4 align-top text-center whitespace-nowrap">
+                <button
+                  type="button"
+                  onclick="openModal(${row.id})"
+                  class="rounded-lg border border-olive-200 bg-olive-50 hover:bg-olive-100 text-olive-800 px-2.5 py-1 text-xs font-semibold transition cursor-pointer"
+                >
+                  Ver detalle
+                </button>
+              </td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+
+    // =========================================================================
+    // ACTUALIZACIÓN DE GRÁFICOS (CHART.JS)
+    // =========================================================================
+    function updateCharts(rows) {
+      // --- GRÁFICO 1: Desglose de flujos en Mg CO2-eq ha-1 año-1 ---
+      // Filtramos sistemas que tengan balance neto o emisiones operacionales reportadas
+      const fluxRows = rows.filter(
+        r => r.balance_neto !== null || r.emisiones_operacionales !== null
+      );
+
+      const labels1 = fluxRows.map(r => shortLabel(r.estudio));
+      // Convertimos emisiones operacionales de kg a Mg CO2-eq ha-1 año-1 para misma escala
+      const emisMgData = fluxRows.map(r =>
+        r.emisiones_operacionales !== null ? +(r.emisiones_operacionales / 1000).toFixed(3) : null
+      );
+      const soilMgData = fluxRows.map(r => r.secuestro_suelo);
+      const bioMgData = fluxRows.map(r => r.secuestro_biomasa);
+      const netMgData = fluxRows.map(r => r.balance_neto);
+
+      const ctx1 = document.getElementById("fluxChart").getContext("2d");
+      if (fluxChartInstance) fluxChartInstance.destroy();
+
+      fluxChartInstance = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: labels1,
+          datasets: [
+            {
+              type: "line",
+              label: "Balance Climático Neto",
+              data: netMgData,
+              borderColor: "#1e293b",
+              backgroundColor: "#b58900",
+              borderWidth: 2,
+              pointRadius: 6,
+              pointHoverRadius: 8,
+              pointBorderColor: "#1e293b",
+              pointBackgroundColor: "#f59e0b",
+              tension: 0.1,
+              order: 0
+            },
+            {
+              label: "Emisiones Operacionales (+)",
+              data: emisMgData,
+              backgroundColor: "rgba(217, 119, 6, 0.82)",
+              borderColor: "rgb(180, 83, 9)",
+              borderWidth: 1,
+              borderRadius: 4,
+              stack: "flujos",
+              order: 1
+            },
+            {
+              label: "Secuestro / Flujo Suelo",
+              data: soilMgData,
+              backgroundColor: "rgba(16, 185, 129, 0.82)",
+              borderColor: "rgb(4, 120, 87)",
+              borderWidth: 1,
+              borderRadius: 4,
+              stack: "flujos",
+              order: 2
+            },
+            {
+              label: "Secuestro Biomasa Arbórea",
+              data: bioMgData,
+              backgroundColor: "rgba(45, 74, 34, 0.85)",
+              borderColor: "rgb(35, 58, 27)",
+              borderWidth: 1,
+              borderRadius: 4,
+              stack: "flujos",
+              order: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: "index",
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                boxWidth: 12,
+                font: { size: 11, family: "Inter" }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  if (ctx.raw === null || ctx.raw === undefined) {
+                    return `${ctx.dataset.label}: No reportado`;
+                  }
+                  const sign = ctx.raw > 0 ? "+" : "";
+                  return `${ctx.dataset.label}: ${sign}${ctx.raw.toLocaleString("es-ES", { maximumFractionDigits: 2 })} Mg CO₂-eq/ha/año`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              ticks: {
+                font: { size: 10, family: "Inter" },
+                maxRotation: 28,
+                minRotation: 15
+              },
+              grid: { display: false }
+            },
+            y: {
+              stacked: true,
+              title: {
+                display: true,
+                text: "Mg CO₂-eq ha⁻¹ año⁻¹",
+                font: { size: 11, weight: "600", family: "Inter" }
+              },
+              grid: {
+                color: ctx => (ctx.tick.value === 0 ? "#64748b" : "#e2e8f0"),
+                lineWidth: ctx => (ctx.tick.value === 0 ? 1.5 : 1)
+              }
+            }
+          }
+        }
+      });
+
+      // --- GRÁFICO 2: Barras horizontales de Secuestro en Suelo ---
+      const soilRows = rows.filter(r => r.secuestro_suelo !== null);
+      const labels2 = soilRows.map(r => shortLabel(r.estudio));
+      const values2 = soilRows.map(r => r.secuestro_suelo);
+      const bgColors2 = values2.map(v =>
+        v < 0 ? "rgba(45, 74, 34, 0.85)" : "rgba(217, 119, 6, 0.85)"
+      );
+      const borderColors2 = values2.map(v =>
+        v < 0 ? "rgb(35, 58, 27)" : "rgb(180, 83, 9)"
+      );
+
+      const ctx2 = document.getElementById("soilChart").getContext("2d");
+      if (soilChartInstance) soilChartInstance.destroy();
+
+      soilChartInstance = new Chart(ctx2, {
+        type: "bar",
+        data: {
+          labels: labels2,
+          datasets: [
+            {
+              label: "Flujo anual en suelo (Mg CO₂ ha⁻¹ año⁻¹)",
+              data: values2,
+              backgroundColor: bgColors2,
+              borderColor: borderColors2,
+              borderWidth: 1,
+              borderRadius: 5
+            }
+          ]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const v = ctx.raw;
+                  const role = v < 0 ? "Sumidero edáfico" : "Pérdida neta de COS";
+                  const sign = v > 0 ? "+" : "";
+                  return `${role}: ${sign}${v.toLocaleString("es-ES", { maximumFractionDigits: 2 })} Mg CO₂/ha/año`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: "Mg CO₂ ha⁻¹ año⁻¹ (negativo = captura)",
+                font: { size: 11, weight: "600", family: "Inter" }
+              },
+              grid: {
+                color: ctx => (ctx.tick.value === 0 ? "#64748b" : "#e2e8f0"),
+                lineWidth: ctx => (ctx.tick.value === 0 ? 1.5 : 1)
+              }
+            },
+            y: {
+              ticks: {
+                font: { size: 10.5, family: "Inter" }
+              },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // =========================================================================
+    // CICLO PRINCIPAL DE ACTUALIZACIÓN
+    // =========================================================================
+    function refreshApp() {
+      const rows = getFilteredData();
+      updateKPIs(rows);
+      renderTable(rows);
+      updateCharts(rows);
+    }
+
+    // =========================================================================
+    // MODAL DE DETALLE
+    // =========================================================================
+    const detailModal = document.getElementById("detailModal");
+
+    window.openModal = function (id) {
+      const item = DATA.find(d => d.id === id);
+      if (!item) return;
+
+      document.getElementById("modalCategory").textContent = item.categoria_manejo;
+      document.getElementById("modalTitle").textContent = item.estudio;
+      document.getElementById("modalJournal").textContent = item.revista;
+      document.getElementById("modalLocation").textContent = item.ubicacion;
+      document.getElementById("modalSample").textContent = item.muestra;
+      document.getElementById("modalCosRate").textContent = item.tasa_cos_anual_rango;
+      document.getElementById("modalPractice").textContent = item.sistema_practica;
+      document.getElementById("modalFinding").textContent = item.resumen_hallazgo;
+
+      document.getElementById("modalEmis").textContent =
+        item.emisiones_operacionales !== null
+          ? `${item.emisiones_operacionales.toLocaleString("es-ES")} kg`
+          : "No reportado";
+      document.getElementById("modalSoil").textContent =
+        item.secuestro_suelo !== null
+          ? `${formatPlainNum(item.secuestro_suelo, 2, true)} Mg`
+          : "No reportado";
+      document.getElementById("modalBiomass").textContent =
+        item.secuestro_biomasa !== null
+          ? `${formatPlainNum(item.secuestro_biomasa, 2, true)} Mg`
+          : "No reportado";
+      document.getElementById("modalNet").textContent =
+        item.balance_neto !== null
+          ? `${formatPlainNum(item.balance_neto, 2, true)} Mg`
+          : "No reportado";
+
+      const doiLink = document.getElementById("modalDoiLink");
+      doiLink.href = `https://doi.org/${item.doi}`;
+      doiLink.textContent = `Ver artículo en doi.org/${item.doi} ↗`;
+
+      detailModal.classList.remove("hidden");
+      detailModal.classList.add("flex");
+    };
+
+    function closeModal() {
+      detailModal.classList.add("hidden");
+      detailModal.classList.remove("flex");
+    }
+
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+    document.getElementById("closeModalFooterBtn").addEventListener("click", closeModal);
+    detailModal.addEventListener("click", e => {
+      if (e.target === detailModal) closeModal();
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && !detailModal.classList.contains("hidden")) {
+        closeModal();
+      }
+    });
+
+    // =========================================================================
+    // EXPORTACIÓN A CSV Y COPIADO DE CITA
+    // =========================================================================
+    exportCsvBtn.addEventListener("click", () => {
+      const rows = getFilteredData();
+      if (rows.length === 0) {
+        showToast("No hay registros filtrados para exportar.");
+        return;
+      }
+
+      const headers = [
+        "ID",
+        "Estudio",
+        "Revista",
+        "DOI",
+        "Ubicacion",
+        "Categoria_Manejo",
+        "Sistema_Practica",
+        "Emisiones_Operacionales_kg_CO2eq_ha_anio",
+        "Secuestro_Suelo_Mg_CO2_ha_anio",
+        "Secuestro_Biomasa_Mg_CO2_ha_anio",
+        "Balance_Neto_Mg_CO2eq_ha_anio",
+        "Tasa_COS_Anual_Rango",
+        "Muestra",
+        "Resumen_Hallazgo"
+      ];
+
+      const escapeCsv = val => {
+        if (val === null || val === undefined) return "";
+        const str = String(val).replace(/"/g, '""');
+        return `"${str}"`;
+      };
+
+      const csvLines = [
+        headers.join(";"),
+        ...rows.map(r =>
+          [
+            r.id,
+            r.estudio,
+            r.revista,
+            r.doi,
+            r.ubicacion,
+            r.categoria_manejo,
+            r.sistema_practica,
+            r.emisiones_operacionales,
+            r.secuestro_suelo,
+            r.secuestro_biomasa,
+            r.balance_neto,
+            r.tasa_cos_anual_rango,
+            r.muestra,
+            r.resumen_hallazgo
+          ]
+            .map(escapeCsv)
+            .join(";")
+        )
+      ];
+
+      const blob = new Blob(["\uFEFF" + csvLines.join("\n")], {
+        type: "text/csv;charset=utf-8;"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "balance_climatico_olivar_mediterraneo_2022_2026.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`Exportados ${rows.length} registros a CSV.`);
+    });
+
+    document.getElementById("copyCitationBtn").addEventListener("click", () => {
+      const citationText = document.getElementById("citationBox").innerText;
+      const tempInput = document.createElement("textarea");
+      tempInput.value = citationText;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand("copy");
+        showToast("Cita copiada al portapapeles.");
+      } catch (err) {
+        showToast("No se pudo copiar automáticamente.");
+      }
+      document.body.removeChild(tempInput);
+    });
+
+    // =========================================================================
+    // EVENTOS DE FILTRADO Y ORDENACIÓN
+    // =========================================================================
+    searchInput.addEventListener("input", e => {
+      state.search = e.target.value;
+      refreshApp();
+    });
+
+    categoryFilter.addEventListener("change", e => {
+      state.category = e.target.value;
+      refreshApp();
+    });
+
+    locationFilter.addEventListener("change", e => {
+      state.location = e.target.value;
+      refreshApp();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      state.search = "";
+      state.category = "ALL";
+      state.location = "ALL";
+      state.sortField = "id";
+      state.sortAsc = true;
+      searchInput.value = "";
+      categoryFilter.value = "ALL";
+      locationFilter.value = "ALL";
+      refreshApp();
+      showToast("Filtros restablecidos.");
+    });
+
+    document.querySelectorAll("th[data-sort]").forEach(th => {
+      th.addEventListener("click", () => {
+        const field = th.getAttribute("data-sort");
+        if (state.sortField === field) {
+          state.sortAsc = !state.sortAsc;
+        } else {
+          state.sortField = field;
+          state.sortAsc = true;
+        }
+        refreshApp();
+      });
+    });
+
+    // Arranque inicial
+    window.addEventListener("DOMContentLoaded", () => {
+      populateFilters();
+      refreshApp();
+    });
+  </script>
+</body>
+</html>
